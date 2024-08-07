@@ -7,6 +7,7 @@ HEADERS = *.h
 OBJ = $(SRC:.cpp=.o)
 TESTS = test_cases.txt
 OUTPUT = output.txt
+EXPECTED_OUTPUT = expected_output.txt
 
 # Regla por defecto para compilar el programa
 all: $(TARGET)
@@ -36,3 +37,4 @@ test: $(TARGET)
 	./$(TARGET) < $(TESTS) > $(OUTPUT)
 	@echo "Output stored in $(OUTPUT)"
 	@cat $(OUTPUT)
+	@diff -w $(OUTPUT) $(EXPECTED_OUTPUT) && echo "\nTest passed!" || echo "\nTest failed!"

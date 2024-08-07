@@ -1,0 +1,11 @@
+Ingrese el numero de elementos o 0 para salir: El arreglo ingresado es: 3.1415 
+El arreglo ordenado es: 3.1415 
+Ingrese el numero de elementos o 0 para salir: El arreglo ingresado es: 7.7 7.7 7.7 7.7 7.7 
+El arreglo ordenado es: 7.7 7.7 7.7 7.7 7.7 
+Ingrese el numero de elementos o 0 para salir: El arreglo ingresado es: 10 9 8 7 6 
+El arreglo ordenado es: 10 9 8 7 6 
+Ingrese el numero de elementos o 0 para salir: El arreglo ingresado es: -2.5 3.3 0 -1 8.8 4.2 
+El arreglo ordenado es: 8.8 4.2 3.3 0 -1 -2.5 
+Ingrese el numero de elementos o 0 para salir: El arreglo ingresado es: 1e+06 -1e+06 1e-06 -1e-06 99999 -99999 
+El arreglo ordenado es: 1e+06 99999 1e-06 -1e-06 -99999 -1e+06 
+Ingrese el numero de elementos o 0 para salir: 
