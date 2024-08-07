@@ -1,3 +1,7 @@
+// actividad 1.1.b Utilizando el algoritmo std::sort
+// Aaron Hernandez Jimenez A01642529
+// Jorge Antonio Arizpe Cantu A01637441
+// 07/08/2024
 #include <iostream>
 #include <algorithm>
 #include <vector>
