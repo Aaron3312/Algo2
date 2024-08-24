@@ -1,11 +1,13 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <limits.h>
+#include <climits>
 
 void imprimirResultado(std::vector<int> &monedas, std::vector<int> &resultado)
 {
     for (size_t i = 0; i < monedas.size(); i++)
-    {2
+    {
         std::cout << "Monedas de " << monedas[i] << ": " << resultado[i] << std::endl;
     }
 }
@@ -13,7 +15,7 @@ void imprimirResultado(std::vector<int> &monedas, std::vector<int> &resultado)
 void cambioGreedy(std::vector<int> &monedas, int cantidad, int size)
 {
     std::vector<int> resultado(size, 0); // Vector para guardar que monedas vamos usando
-    for (int i = 0; i < size; i++) // Como se le pasa el vector de monedas ya ordenado va usando la moneda de mas valor hasta que ya no pueda
+    for (int i = 0; i < size; i++)       // Como se le pasa el vector de monedas ya ordenado va usando la moneda de mas valor hasta que ya no pueda
     {
         while (cantidad >= monedas[i])
         {
@@ -32,9 +34,9 @@ void cambioGreedy(std::vector<int> &monedas, int cantidad, int size)
 
 void cambioDynamic(std::vector<int> &monedas, int cantidad, int size)
 {
-    std::vector<int> soluciones(cantidad + 1, INT_MAX); // Menor cantidad de monedas para cada cantidad
+    std::vector<int> soluciones(cantidad + 1, INT_MAX);    // Menor cantidad de monedas para cada cantidad
     std::vector<int> monedasUsadas(cantidad + 1, INT_MAX); // Todas las monedas usadas para las soluciones
-    std::vector<int> resultado(size, 0); // Monedas que usamos para la solucion final
+    std::vector<int> resultado(size, 0);                   // Monedas que usamos para la solucion final
     soluciones[0] = 0;
 
     for (int i = 1; i <= cantidad; i++)
@@ -46,14 +48,14 @@ void cambioDynamic(std::vector<int> &monedas, int cantidad, int size)
             {
                 if (soluciones[i] > soluciones[i - coin] + 1)
                 {
-                    soluciones[i] = soluciones[i - coin] + 1; //Guardamos cuantas monedas se usaron para esta solucion 
-                    monedasUsadas[i] = j; // Guardamos la moneda que se utilizo
+                    soluciones[i] = soluciones[i - coin] + 1; // Guardamos cuantas monedas se usaron para esta solucion
+                    monedasUsadas[i] = j;                     // Guardamos la moneda que se utilizo
                 }
             }
         }
     }
 
-    if (soluciones[cantidad] != INT_MAX) //Vemos que monedas usamos para la solucion final
+    if (soluciones[cantidad] != INT_MAX) // Vemos que monedas usamos para la solucion final
     {
         int current = cantidad;
         while (current > 0)
