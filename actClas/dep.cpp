@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <utility>
 
 // Contador de visitas de ramas
 int contadorVisitas = 0;
@@ -148,16 +149,26 @@ int convertirInput(int movimiento)
 {
     switch (movimiento)
     {
-    case 1: return 0 * 3 + 0;
-    case 2: return 0 * 3 + 1;
-    case 3: return 0 * 3 + 2;
-    case 4: return 1 * 3 + 0;
-    case 5: return 1 * 3 + 1;
-    case 6: return 1 * 3 + 2;
-    case 7: return 2 * 3 + 0;
-    case 8: return 2 * 3 + 1;
-    case 9: return 2 * 3 + 2;
-    default: return -1;
+    case 1:
+        return 0 * 3 + 0;
+    case 2:
+        return 0 * 3 + 1;
+    case 3:
+        return 0 * 3 + 2;
+    case 4:
+        return 1 * 3 + 0;
+    case 5:
+        return 1 * 3 + 1;
+    case 6:
+        return 1 * 3 + 2;
+    case 7:
+        return 2 * 3 + 0;
+    case 8:
+        return 2 * 3 + 1;
+    case 9:
+        return 2 * 3 + 2;
+    default:
+        return -1;
     }
 }
 
