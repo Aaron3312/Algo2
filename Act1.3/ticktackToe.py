@@ -3,9 +3,9 @@ contador_visitas = 0
 
 def imprimir_tablero(tablero):
     for fila in tablero:
-        print("-------------")
+        print("---------------")
         print(" | ".join(f" {celda} " for celda in fila))
-    print("-------------")
+    print("---------------")
 
 def verificar_ganador(tablero, jugador):
     # Verificar filas
