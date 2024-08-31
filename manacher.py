@@ -1,89 +1,40 @@
-# Python program to implement Manacher's Algorithm 
+def manacher(s):
+    # Transformación de la cadena
+    T = '#' + '#'.join(s) + '#'
+    n = len(T)
+    P = [0] * n
+    C = 0  # Centro actual del palíndromo
+    R = 0  # Borde derecho del palíndromo actual
 
-def findLongestPalindromicString(text): 
-	N = len(text) 
-	if N == 0: 
-		return
-	N = 2*N+1 # Position count 
-	L = [0] * N 
-	L[0] = 0
-	L[1] = 1
-	C = 1	 # centerPosition 
-	R = 2	 # centerRightPosition 
-	i = 0 # currentRightPosition 
-	iMirror = 0	 # currentLeftPosition 
-	maxLPSLength = 0
-	maxLPSCenterPosition = 0
-	start = -1
-	end = -1
-	diff = -1
+    for i in range(n):
+        mirr = 2 * C - i  # Posición espejo de i respecto al centro C
 
-	# Uncomment it to print LPS Length array 
-	# printf("%d %d ", L[0], L[1]); 
-	for i in range(2,N): 
-	
-		# get currentLeftPosition iMirror for currentRightPosition i 
-		iMirror = 2*C-i 
-		L[i] = 0
-		diff = R - i 
-		# If currentRightPosition i is within centerRightPosition R 
-		if diff > 0: 
-			L[i] = min(L[iMirror], diff) 
+        if i < R:
+            P[i] = min(R - i, P[mirr])
 
-		# Attempt to expand palindrome centered at currentRightPosition i 
-		# Here for odd positions, we compare characters and 
-		# if match then increment LPS Length by ONE 
-		# If even position, we just increment LPS by ONE without 
-		# any character comparison 
-		try: 
-			while ((i+L[i]) < N and (i-L[i]) > 0) and (((i+L[i]+1) % 2 == 0) or (text[(i+L[i]+1)//2] == text[(i-L[i]-1)//2])): 
-				L[i]+=1
-		except Exception as e: 
-			pass
+        # Intenta expandir el palíndromo centrado en i
+        while i + P[i] + 1 < n and i - P[i] - 1 >= 0 and T[i + P[i] + 1] == T[i - P[i] - 1]:
+            P[i] += 1
 
-		if L[i] > maxLPSLength:	 # Track maxLPSLength 
-			maxLPSLength = L[i] 
-			maxLPSCenterPosition = i 
+        # Si el palíndromo se expande más allá de R, actualiza C y R
+        if i + P[i] > R:
+            C = i
+            R = i + P[i]
 
-		# If palindrome centered at currentRightPosition i 
-		# expand beyond centerRightPosition R, 
-		# adjust centerPosition C based on expanded palindrome. 
-		if i + L[i] > R: 
-			C = i 
-			R = i + L[i] 
+    # El vector P contiene los radios de los palíndromos centrados en cada posición de T
+    return P
 
-	# Uncomment it to print LPS Length array 
-	# printf("%d ", L[i]); 
-	start = (maxLPSCenterPosition - maxLPSLength) // 2
-	end = start + maxLPSLength - 1
-	print ("LPS of string is " + text + " : ",text[start:end+1]) 
+# Ejemplo de uso
+s = "abacabad"
+P = manacher(s)
+print("Vector de radios de palíndromos:", P)
 
-# Driver program 
-text1 = "babcbabcbaccba"
-findLongestPalindromicString(text1) 
+# Opcional: Mostrar los palíndromos basados en P
+palindromos = []
+for i in range(1, len(P) - 1):
+    longitud = P[i]
+    if longitud > 0:
+        start = (i - longitud) // 2
+        palindromos.append(s[start:start + longitud])
 
-text2 = "abaaba"
-findLongestPalindromicString(text2) 
-
-text3 = "abababa"
-findLongestPalindromicString(text3) 
-
-text4 = "abcbabcbabcba"
-findLongestPalindromicString(text4) 
-
-text5 = "forgeeksskeegfor"
-findLongestPalindromicString(text5) 
-
-text6 = "caba"
-findLongestPalindromicString(text6) 
-
-text7 = "abacdfgdcaba"
-findLongestPalindromicString(text7) 
-
-text8 = "abacdfgdcabba"
-findLongestPalindromicString(text8) 
-
-text9 = "abacdedcaba"
-findLongestPalindromicString(text9) 
-
-# This code is contributed by BHAVYA JAIN 
+print("Palíndromos encontrados:", palindromos)
