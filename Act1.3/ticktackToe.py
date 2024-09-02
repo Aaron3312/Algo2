@@ -1,7 +1,7 @@
-# Contador de visitas de ramas
+# Contador de visitas de ramas para comprender porque la profundidad de lo que realiza
 contador_visitas = 0
 
-def imprimir_tablero(tablero):
+def imprimir_tablero(tablero): # esta funcion nos hace poder imprimir un tablero en condiciones.
     for fila in tablero:
         print("---------------")
         print(" | ".join(f" {celda} " for celda in fila))
@@ -78,7 +78,7 @@ def mejor_movimiento(tablero):
                     best_move = (i, j)
     return best_move
 
-def convertir_input(movimiento):
+def convertir_input(movimiento): #unicamente una mejor mobilidad de input
     conversiones = {
         1: (0, 0),
         2: (0, 1),
