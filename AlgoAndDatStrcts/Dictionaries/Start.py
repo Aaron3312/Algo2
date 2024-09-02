@@ -28,3 +28,8 @@ def traverseDict(dict):
     for key in dict:
         print(key, dict[key])
 traverseDict(eng_sp2)
+
+
+val = eng_sp2.pop("one")
+print(val)
+print(eng_sp2)
