@@ -37,19 +37,22 @@ def pattern_search(orgn_string, patt, loc_array):
             else:
                 i += 1
                 
-    return location
+    return location if location > 0 else -1
 
 def main():
     # declare the original text
     orgn_str = "aabbaaccaabbaadde"
     # pattern to be found
-    patrn = "aabbaa"
+    patrn = "aabaa"
     # array to store the locations of the pattern
     location_array = [0] * len(orgn_str)
     index = pattern_search(orgn_str, patrn, location_array)
     
-    for i in range(index):
-        print("Pattern found at location:", location_array[i])
+    if index == -1:
+        print("Pattern not found")
+    else:
+        for i in range(index):
+            print("Pattern found at location:", location_array[i])
 
 if __name__ == "__main__":
     main()
