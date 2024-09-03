@@ -1,7 +1,7 @@
 # Contador de visitas de ramas para comprender porque la profundidad de lo que realiza
 contador_visitas = 0
 
-def imprimir_tablero(tablero): # esta funcion nos hace poder imprimir un tablero en condiciones.
+def imprimir_tablero(tablero):  # esta función nos permite imprimir un tablero en condiciones.
     for fila in tablero:
         print("---------------")
         print(" | ".join(f" {celda} " for celda in fila))
@@ -32,7 +32,7 @@ def verificar_empate(tablero):
             return False
     return True
 
-def minimax(tablero, is_maximizing):
+def minimax(tablero, is_maximizing, alpha, beta):
     global contador_visitas
     contador_visitas += 1  # Incrementar contador en cada llamada a minimax
 
@@ -49,9 +49,12 @@ def minimax(tablero, is_maximizing):
             for j in range(len(tablero[i])):
                 if tablero[i][j] == ' ':
                     tablero[i][j] = 'O'
-                    score = minimax(tablero, False)
+                    score = minimax(tablero, False, alpha, beta)
                     tablero[i][j] = ' '
                     best_score = max(score, best_score)
+                    alpha = max(alpha, score)
+                    if beta <= alpha:
+                        break  # Poda beta
         return best_score
     else:
         best_score = 1000
@@ -59,9 +62,12 @@ def minimax(tablero, is_maximizing):
             for j in range(len(tablero[i])):
                 if tablero[i][j] == ' ':
                     tablero[i][j] = 'X'
-                    score = minimax(tablero, True)
+                    score = minimax(tablero, True, alpha, beta)
                     tablero[i][j] = ' '
                     best_score = min(score, best_score)
+                    beta = min(beta, score)
+                    if beta <= alpha:
+                        break  # Poda alfa
         return best_score
 
 def mejor_movimiento(tablero):
@@ -71,14 +77,14 @@ def mejor_movimiento(tablero):
         for j in range(len(tablero[i])):
             if tablero[i][j] == ' ':
                 tablero[i][j] = 'O'
-                score = minimax(tablero, False)
+                score = minimax(tablero, False, -1000, 1000)
                 tablero[i][j] = ' '
                 if score > best_score:
                     best_score = score
                     best_move = (i, j)
     return best_move
 
-def convertir_input(movimiento): #unicamente una mejor mobilidad de input
+def convertir_input(movimiento):  # Unicamente una mejor movilidad de input
     conversiones = {
         1: (0, 0),
         2: (0, 1),
