@@ -43,7 +43,7 @@ def main():
     # declare the original text
     orgn_str = "aabbaaccaabbaadde"
     # pattern to be found
-    patrn = "aabaa"
+    patrn = "aabbaa"
     # array to store the locations of the pattern
     location_array = [0] * len(orgn_str)
     index = pattern_search(orgn_str, patrn, location_array)
