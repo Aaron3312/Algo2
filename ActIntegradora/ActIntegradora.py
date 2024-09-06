@@ -124,6 +124,8 @@ def main():
     mcode3 = read_file("mcode3.txt")
     trasmission1 = read_file("transmission1.txt")
     trasmission2 = read_file("transmission2.txt")
+    trasmission3 = read_file("transmission3.txt")
+
 
     #PARTE 1
     print("Parte 1")
