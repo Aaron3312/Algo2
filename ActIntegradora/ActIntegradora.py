@@ -100,6 +100,22 @@ def find_longest_common_sequence(str1, str2):
 
     return max_position, max_length
 
+def encontrar_palindromo_mas_largo(trasmission):
+    s = trasmission
+    P = manacher(s)
+    palindromos = []
+    for i in range(1, len(P) - 1):
+        longitud = P[i]
+        if longitud > 0:
+            start = (i - longitud) // 2
+            palindromos.append(s[start:start + longitud])
+    palindromoMasLargo = max(palindromos, key=len)
+    location_array = [0] * len(trasmission)
+    index1 = pattern_search(trasmission, palindromoMasLargo, location_array)
+    if index1 == -1:
+        print("False")
+    for i in range(index1):
+        print(location_array[i], location_array[i] + len(palindromoMasLargo))
 
 def main():
     # Leer el contenido de los archivos .txt y almacenarlos como cadenas
@@ -111,84 +127,28 @@ def main():
 
     #PARTE 1
     print("Parte 1")
-    #mcode 1 en transmision 1
-    location_array = [0] * len(trasmission1)
-    index = pattern_search(trasmission1, mcode1, location_array)
-    if index == -1:
-        print("False")
-    for i in range(index):
-        print("True:", location_array[i])
-    #mcode 2 en transmision 1
-    location_array = [0] * len(trasmission1)
-    index = pattern_search(trasmission1, mcode2, location_array)
-    if index == -1:
-        print("False")
-    for i in range(index):
-        print("True:", location_array[i])
-    #mcode 3 en transmision 1
-    location_array = [0] * len(trasmission1)
-    index = pattern_search(trasmission1, mcode3, location_array)
-    if index == -1:
-        print("False")
-    for i in range(index):
-        print("True:", location_array[i])
-    #mcode 1 en transmision 2
-    location_array = [0] * len(trasmission2)
-    index = pattern_search(trasmission2, mcode1, location_array)
-    if index == -1:
-        print("False")
-    for i in range(index):
-        print("True:", location_array[i])
-    #mcode 2 en transmision 2
-    location_array = [0] * len(trasmission2)
-    index = pattern_search(trasmission2, mcode2, location_array)
-    if index == -1:
-        print("False")
-    for i in range(index):
-        print("True:", location_array[i])
-    #mcode 3 en transmision 2
-    location_array = [0] * len(trasmission2)
-    index = pattern_search(trasmission2, mcode3, location_array)
-    if index == -1:
-        print("False")
-    for i in range(index):
-        print("True:", location_array[i])
+    # Lista de códigos y transmisiones
+    mcodes = [mcode1, mcode2, mcode3]
+    transmissions = [trasmission1, trasmission2]
+
+    # Iterar sobre cada combinación de código y transmisión
+    for transmission in transmissions:
+        for mcode in mcodes:
+            location_array = [0] * len(transmission)
+            index = pattern_search(transmission, mcode, location_array)
+            if index == -1:
+                print("False")
+            for i in range(index):
+                print("True:", location_array[i])
 
     #PARTE 2
     print("Parte 2")
-    #Palindromo mas largo en la transmision 1
-    s = trasmission1
-    P = manacher(s)
-    palindromos = []
-    for i in range(1, len(P) - 1):
-        longitud = P[i]
-        if longitud > 0:
-            start = (i - longitud) // 2
-            palindromos.append(s[start:start + longitud])
-    palindromoMasLargo = max(palindromos, key=len)
-    location_array = [0] * len(trasmission1)
-    index1 = pattern_search(trasmission1, palindromoMasLargo, location_array)
-    if index1 == -1:
-        print("False")
-    for i in range(index1):
-            print(location_array[i], location_array[i] + len(palindromoMasLargo))
-    #Palindromo mas largo en la transmision 2
-    s = trasmission2
-    P = manacher(s)
-    palindromos = []
-    for i in range(1, len(P) - 1):
-        longitud = P[i]
-        if longitud > 0:
-            start = (i - longitud) // 2
-            palindromos.append(s[start:start + longitud])
-    palindromoMasLargo = max(palindromos, key=len)
-    location_array = [0] * len(trasmission2)
-    index1 = pattern_search(trasmission2, palindromoMasLargo, location_array)
-    if index1 == -1:
-        print("False")
-    for i in range(index1):
-            print(location_array[i], location_array[i] + len(palindromoMasLargo))
-            
+    # Palíndromo más largo en la transmisión 1
+    encontrar_palindromo_mas_largo(trasmission1)
+
+    # Palíndromo más largo en la transmisión 2
+    encontrar_palindromo_mas_largo(trasmission2)
+
     #PARTE 3
     print("Parte 3")
     position, max_length = find_longest_common_sequence(trasmission1, trasmission2)
