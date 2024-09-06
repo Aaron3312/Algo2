@@ -24,11 +24,12 @@ def find_longest_common_sequence(str1, str2):
     # con slicing desde max_position hasta max_position + max_length
     longest_sequence = str1[max_position:max_position + max_length]
 
-    return longest_sequence, max_position
+    return longest_sequence, max_position, max_length   
 
-str1 = open("ActIntegradora/transmission1.txt", "r").read()
-str2 = open("ActIntegradora/transmission2.txt", "r").read()
+str1 = open("transmission1.txt", "r").read()
+str2 = open("transmission2.txt", "r").read()
 
-sequence, position = find_longest_common_sequence(str1, str2)
+sequence, position, max_length = find_longest_common_sequence(str1, str2)
 print("Secuencia común más larga:", sequence)
 print("Posición de inicio en la primera cadena:", position)
+print("Posición final en la primera cadena:", position + max_length)
