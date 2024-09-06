@@ -95,9 +95,10 @@ def find_longest_common_sequence(str1, str2):
 
     # Obtener la secuencia común más larga y su posición
     # con slicing desde max_position hasta max_position + max_length
-    longest_sequence = str1[max_position:max_position + max_length]
+    #pero no la uso igual
+    # longest_sequence = str1[max_position:max_position + max_length]
 
-    return longest_sequence, max_position, max_length
+    return max_position, max_length
 
 
 def main():
@@ -190,7 +191,7 @@ def main():
             
     #PARTE 3
     print("Parte 3")
-    sequence, position, max_length = find_longest_common_sequence(trasmission1, trasmission2)
+    position, max_length = find_longest_common_sequence(trasmission1, trasmission2)
     print(position, position + max_length)
 
 if __name__ == "__main__":
