@@ -1,0 +1,4 @@
+A01642529 Aaron Hernandez Jimenez
+A01637441 Jorge Antonio Arizpe Cantú
+
+hicimos pair programming por lo que trabajamos juntos en toda la actividad, estuvimos revisando cada paso y haciendo cada funcion.
