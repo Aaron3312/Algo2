@@ -66,7 +66,7 @@ class CSLinkedList:
             nextDm = dummy_n.next
             dummy_n.next = new_node
             new_node.next = nextDm
-            self.length += 1
+        self.length += 1
 
     def traverCircleList(self):
         iwannakilmyself = self.head
@@ -76,7 +76,80 @@ class CSLinkedList:
             if iwannakilmyself == self.head:
                 break
 
+    def search(self, val):
+        iwannakilmyself = self.head
+        while iwannakilmyself is not None:
+            if iwannakilmyself.value == val:
+                return True
+            iwannakilmyself = iwannakilmyself.next
+            if iwannakilmyself == self.head:
+                return False
+    def get(self, index):
+        dumb = self.head
+        counter = 0
+        while dumb is not None:
+            if counter == index:
+                return dumb
+            counter +=1
+            dumb = dumb.next
 
+    def setValue(self, index, value):
+        temp = self.get(index)
+        if temp:
+            temp.value = value
+            return True
+        return False
+    
+    def popFirst(self):
+        temp = self.head
+        if self.length == 0:
+            self.head = None
+            self.tail = None
+        else:
+            self.head = temp.next
+            self.tail.next = self.head
+        self.length -= 1
+        return temp.value
+    
+    def pop(self):
+        temp = self.tail
+        tempi = self.head
+        if self.tail == self.head:
+            self.head = None
+            self.tail = None
+        else:
+            for _ in range(self.length - 2):
+                tempi = tempi.next
+        tempi.next = self.head
+        self.tail = tempi
+        self.length -= 1
+        print(tempi.value)
+        return temp.value
+    
+    def remove(self, index):
+        temp = self.head
+        before = self.head
+        if index == 0:
+            return(self.popFirst())
+        elif index == self.length:
+            return(self.pop())
+        else:
+            for _ in range(index - 1 ):
+                before = before.next
+            removed = before.next
+            nexted = removed.next
+            before.next = nexted
+            removed.next = None
+            return(removed.value)
+
+
+    def removeAll(self):
+        if self.length == 0:
+            return
+        self.tail.next =None
+        self.tail = None
+        self.head = None
+        self.length = 0
         
 a = CSLinkedList()
 a.prepend(33)
@@ -86,6 +159,22 @@ a.append(40)
 a.insert(20, 0)
 
 print(a)
-a.traverCircleList()
+# a.traverCircleList()
+print(a.search(7))
+print(a.search(1))
+print((a.get(5).value))
+print(a.setValue(7,22))
+print(a)
+for i in range(0, 1):
+    print(a.popFirst())
+print(a.length)
+print(a)
+print(a.pop())
+print(a)
+print(a.pop())
 
-
+print(a)
+print(a.remove(4))
+print(a)
+a.removeAll()
+print(a)
