@@ -32,9 +32,9 @@ class QueueviaStack():
   
 
 customQueue = QueueviaStack()
-customQueue.enqueue(1)
 customQueue.enqueue(2)
-customQueue.enqueue(3)
-print(customQueue.dequeue())
+customQueue.enqueue(1)
 customQueue.enqueue(4)
 print(customQueue.dequeue())
+print(customQueue.dequeue())
+customQueue.enqueue(3)

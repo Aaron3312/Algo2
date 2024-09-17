@@ -37,5 +37,19 @@ customQueue.enqueue('Cat1', 'Cat')
 customQueue.enqueue('Cat2', 'Cat')
 customQueue.enqueue('Dog1', 'Dog')
 customQueue.enqueue('Cat3', 'Cat')
+customQueue.enqueue('Cat3', 'Cat')
+customQueue.enqueue('Cat3', 'Cat')
+customQueue.enqueue('Cat3', 'Cat')
+
 customQueue.enqueue('Dog2', 'Dog')
 print(customQueue.dequeueAny())
+print(customQueue.dequeueAny())
+print(customQueue.dequeueAny())
+print(customQueue.dequeueAny())
+
+print(customQueue.dequeueAny())
+print(customQueue.dequeueAny())
+print(customQueue.dequeueAny())
+print(customQueue.dequeueAny())
+
+
