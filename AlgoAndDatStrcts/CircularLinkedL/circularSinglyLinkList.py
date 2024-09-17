@@ -25,6 +25,7 @@ class CSLinkedList:
             temp = temp.next
             if temp == self.head:
                 return regresa
+        return regresa
         
     
     def append(self, value):
@@ -60,12 +61,3 @@ class CSLinkedList:
 
 
 
-a = CSLinkedList()
-a.append(2)
-a.append(3)
-a.prepend(32)
-a.append(3)
-a.append(3)
-
-
-print(a)
