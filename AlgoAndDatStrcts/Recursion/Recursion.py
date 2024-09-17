@@ -33,9 +33,21 @@ recursive(4)
 
 
 def factorial(n):
+    assert n >= 0 and int(n) == n, "the number need to be integer and positive"
     if n < 1:
         return 1
     else:
         return n* factorial(n-1)
     
-print(factorial(10))
+print(factorial(5))
+
+
+def fibonacci(n):
+    assert n >= 0 and int(n) == n, "the number need to be integer and positive"
+    if n in [0,1]:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+    
+
+print(fibonacci(6))
+
