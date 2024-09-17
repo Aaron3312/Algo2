@@ -11,10 +11,7 @@ class linkedList:
         curNode = self.head
         while curNode:
             yield curNode
-            curNode = curNode.next
-    
-
-    
+            curNode = curNode.next 
 
 class Stack:
     def __init__(self):
