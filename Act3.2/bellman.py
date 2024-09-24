@@ -1,3 +1,4 @@
+import numpy as np
 def bellman_ford(graph, V, start):
     # Initialize distances and predecessors
     dist = [float('inf')] * V
@@ -32,15 +33,31 @@ def print_solution(dist, pred, V, start):
 # Define a dictionary to convert letters A-Z to numbers 0-25
 letter_to_number = {chr(65+i): i for i in range(26)}
 
-# Get matrix size from user
-size = int(input("Enter the size of the adjacency matrix: "))
-
 # Read adjacency matrix from file
 matrix = []
 with open("input.txt", "r") as f:
-    for _ in range(size):
-        row = list(map(int, f.readline().split()))
+    lines = f.readlines()
+    
+    # Remove any empty lines
+    lines = [line.strip() for line in lines if line.strip()]
+    
+    # The size of the matrix is determined by the number of non-empty lines
+    size = len(lines)
+    
+    for line in lines:
+        row = list(map(int, line.split()))
+        if len(row) != size:
+            raise ValueError(f"La fila {row} no tiene {size} elementos como se esperaba.")
         matrix.append(row)
+
+
+
+
+# Print the size and the matrix for verification
+print(f"Tamaño de la matriz: {size}")
+print("Matriz leída:")
+for row in matrix:
+    print(row)
 
 # Ask user for starting node in letter form
 start_letter = input("Enter the starting node (A-Z): ").upper()
