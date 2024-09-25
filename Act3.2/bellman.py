@@ -34,37 +34,45 @@ def print_solution(dist, pred, V, start):
 letter_to_number = {chr(65+i): i for i in range(26)}
 
 # Read adjacency matrix from file
-matrix = []
-with open("input.txt", "r") as f:
-    lines = f.readlines()
-    
-    # Remove any empty lines
-    lines = [line.strip() for line in lines if line.strip()]
-    
-    # The size of the matrix is determined by the number of non-empty lines
-    size = len(lines)
-    
-    for line in lines:
-        row = list(map(int, line.split()))
-        if len(row) != size:
-            raise ValueError(f"La fila {row} no tiene {size} elementos como se esperaba.")
-        matrix.append(row)
+try:
+    matrix = []
+    with open("input.txt", "r") as f:
+        lines = f.readlines()
+        
+        # Remove any empty lines
+        lines = [line.strip() for line in lines if line.strip()]
+        
+        # The size of the matrix is determined by the number of non-empty lines
+        size = len(lines)
+        
+        for line in lines:
+            row = list(map(int, line.split()))
+            if len(row) != size:
+                raise ValueError(f"La fila {row} no tiene {size} elementos como se esperaba.")
+            matrix.append(row)
 
 
 
 
-# Print the size and the matrix for verification
-print(f"Tamaño de la matriz: {size}")
-print("Matriz leída:")
-for row in matrix:
-    print(row)
+    # Print the size and the matrix for verification
+    print(f"Tamaño de la matriz: {size}")
+    print("Matriz leída:")
+    for row in matrix:
+        print(row)
 
-# Ask user for starting node in letter form
-start_letter = input("Enter the starting node (A-Z): ").upper()
-start = letter_to_number[start_letter]
+    # Ask user for starting node in letter form
+    start_letter = input("Enter the starting node (A-Z): ").upper()
+    start = letter_to_number[start_letter]
 
-# Run Bellman-Ford algorithm
-distances, predecessors = bellman_ford(matrix, size, start)
+    # Run Bellman-Ford algorithm
+    distances, predecessors = bellman_ford(matrix, size, start)
 
-if distances is not None:
-    print_solution(distances, predecessors, size, start)
+    if distances is not None:
+        print_solution(distances, predecessors, size, start)
+
+except FileNotFoundError:
+    print("Error: No se pudo encontrar el archivo 'input.txt'.")
+except ValueError as e:
+    print(f"Error: {str(e)}")
+except Exception as e:
+    print(f"No puedes poner letras o otras cosas fuera de el rango de la matriz:  {str(e)}")
