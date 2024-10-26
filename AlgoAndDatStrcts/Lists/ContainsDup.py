@@ -21,4 +21,4 @@ def contains_duplicate(nums):
 
 
 nums = [1,2,1,3]
-print(contains_duplicate(nums))
+print(contains_duplicate(list(nums)))
