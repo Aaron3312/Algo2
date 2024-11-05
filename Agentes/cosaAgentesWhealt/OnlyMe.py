@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 class BaseWealthAgent(ap.Agent):
     """ Base agent with wealth """
     def setup(self):
-        self.wealth = 1
+        self.wealth = 5
         self.strategy_name = "Base"
     
     def wealth_transfer(self):
@@ -25,7 +25,7 @@ class ConservativeAgent(BaseWealthAgent):
     def setup(self):
         super().setup()
         self.strategy_name = "Conservative"
-        self.wealth = 2  
+        self.wealth = 5  
     
     def wealth_transfer(self):
         if self.wealth > 2:
@@ -37,31 +37,39 @@ class ConservativeAgent(BaseWealthAgent):
 class GreedyAgent(ap.Agent):
     def setup(self):
         self.strategy_name = "Greedy"
-        self.wealth = 1
-        self.previous_wealth = 1
-        self.state_utility = 0  # Utility based on state changes
-        self.cumulative_utility = 1  # Utility based on total wealth
+        self.wealth = 5  # Aumentamos la riqueza inicial para tener más opciones
+        self.previous_wealth = self.wealth
+        self.state_utility = 0
+        self.cumulative_utility = self.wealth
         
     def wealth_transfer(self):
         self.previous_wealth = self.wealth
-        if self.wealth > 0:
-            richer_partners = [agent for agent in self.model.agents if agent.wealth > self.wealth]
-            if richer_partners:
-                partner = random.choice(richer_partners)
-                partner.wealth += 1
-                self.wealth -= 1
         
-        # Calculate utilities
-        # State utility: +1 if wealth increased, -1 if decreased, 0 if unchanged
+        # Solo transferimos si tenemos más de 10 unidades de riqueza
+        if self.wealth > 10:
+            # Buscamos agentes que tengan significativamente más riqueza
+            richer_partners = [
+                agent for agent in self.model.agents 
+                if agent.wealth > (self.wealth * 1.01)  # Solo apuntamos a agentes mucho más ricos
+            ]
+            
+            if richer_partners:
+                # Elegimos el agente más rico como objetivo
+                partner = max(richer_partners, key=lambda x: x.wealth)
+                
+                # Solo Robamos si el socio tiene suficiente riqueza
+                if partner.wealth > 2:
+                    partner.wealth -= 1 
+                    self.wealth += 1
+        
+        # Calculamos utilidades
         wealth_change = self.wealth - self.previous_wealth
         if wealth_change > 0:
             self.state_utility += 1
         elif wealth_change < 0:
             self.state_utility -= 1
             
-        # Cumulative utility is just the current wealth
         self.cumulative_utility = self.wealth
-
 
 # only to poorer
 class CharitableAgent(BaseWealthAgent):
@@ -81,7 +89,7 @@ class RiskTakingAgent(BaseWealthAgent):
     def setup(self):
         super().setup()
         self.strategy_name = "RiskTaker"
-        self.wealth = 4  
+        self.wealth = 5  
     
     def wealth_transfer(self):
         if self.wealth > 2:
@@ -95,7 +103,7 @@ class AllOrNothingAgent(BaseWealthAgent):
     def setup(self):
         super().setup()
         self.strategy_name = "AllOrNothing"
-        self.wealth = 10
+        self.wealth = 5
     
     def wealth_transfer(self):
         if self.wealth > 0:
@@ -124,9 +132,16 @@ class WealthModel(ap.Model):
         # Initialize lists to store utility history
         self.state_utility_history = []
         self.cumulative_utility_history = []
+                # Initialize a DataFrame to record wealth over time
+        self.wealth_history = pd.DataFrame()
+        self.step_count = 0  # Initialize step counter
+        self.initial_wealth = [agent.wealth for agent in self.agents]  # Wealth at the beginning
+
         
     def step(self):
         self.agents.wealth_transfer()
+        self.record_wealth()  # Record wealth after each step
+        self.step_count += 1  # Increment the step count
         
         # Record utilities of Greedy agents
         greedy_agents = [agent for agent in self.agents if agent.strategy_name == "Greedy"]
@@ -142,15 +157,32 @@ class WealthModel(ap.Model):
 
     def end(self):
         self.agents.record('wealth')
+        self.evaluate_winners()  # Llama a la función que evalúa los ganadores
+
+
+    def evaluate_winners(self):
+        """ Evaluar quién ha ganado al final de la simulación """
+        winners = []
+        for i, agent in enumerate(self.agents):
+            if agent.wealth > self.initial_wealth[i]:  # Condición de ganancia
+                winners.append(agent.strategy_name)
+        print(f"Ganan: {winners}")
+
+    def record_wealth(self):
+        """ Record the wealth of each agent after each step. """
+        wealths = [agent.wealth for agent in self.agents]
+        types = [agent.strategy_name for agent in self.agents]
+        step_data = pd.DataFrame({'Step': self.step_count, 'Wealth': wealths, 'Agent Type': types})
+        self.wealth_history = pd.concat([self.wealth_history, step_data], ignore_index=True)
 
 # Hyper-parameters
 parameters = {
     'agents': {
         'Base': 10,
-        'Conservative': 20,
-        'Greedy': 20,
-        'Charitable': 20,
-        'RiskTaker': 15,
+        'Conservative': 10,
+        'Greedy': 10,
+        'Charitable': 10,
+        'RiskTaker': 10,
         'AllOrNothing': 0
     },
     'steps': 100,
@@ -215,6 +247,29 @@ plt.figtext(0.02, 0.02, stats_text,
 plt.tight_layout()
 plt.savefig('greedy_agents_utility.png')
 plt.show()
+
+# Plot wealth history over time
+plt.figure(figsize=(12, 6))
+sns.lineplot(data=model.wealth_history, x='Step', y='Wealth', hue='Agent Type', marker='o')
+print(model.wealth_history)
+plt.title('Historia de la Riqueza por Tipo de Agente')
+plt.xlabel('Paso')
+plt.ylabel('Riqueza')
+plt.legend(title='Tipo de Agente')
+plt.show()
+
+# Histogram of wealth distribution by agent type after the simulation
+agent_data = [(agent.strategy_name, agent.wealth) for agent in model.agents]
+df = pd.DataFrame(agent_data, columns=["Agent Type", "Wealth"])
+
+# Create a histogram of the wealth distribution for each agent type
+plt.figure(figsize=(10, 6))
+sns.histplot(data=df, x="Wealth", hue="Agent Type", multiple="dodge", binwidth=1)
+plt.title("Distribución de la Riqueza por Tipo de Agente")
+plt.xlabel("Riqueza")
+plt.ylabel("Número de Agentes")
+plt.show()
+
 
 # Print summary statistics
 print("\nFinal Utility Statistics for Greedy Agents:")
