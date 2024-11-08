@@ -2,15 +2,9 @@ import pygame
 from pygame.locals import *
 from OpenGL.GL import *
 from OpenGL.GLU import *
+import numpy as np
 
 def draw_3d_pixel(x, y, z, size=0.05):
-    """
-    Dibuja un 'pixel' 3D en forma de cubo en la posición especificada
-    
-    Parámetros:
-        x, y, z: coordenadas del centro del pixel
-        size: tamaño del pixel (longitud de cada lado del cubo)
-    """
     vertices = (
         (x + size, y + size, z + size),
         (x - size, y + size, z + size),
@@ -30,22 +24,19 @@ def draw_3d_pixel(x, y, z, size=0.05):
 
     glBegin(GL_QUADS)
     for face in ((0, 1, 2, 3), (4, 5, 6, 7), (0, 3, 7, 4), (1, 2, 6, 5), (0, 1, 5, 4), (2, 3, 7, 6)):
-        glColor3f(0.7, 0.7, 1.0)
+        glColor3f(0.95, 0.95, 0.9)  # Color hueso
         for vertex in face:
             glVertex3fv(vertices[vertex])
     glEnd()
 
     glBegin(GL_LINES)
-    glColor3f(0.2, 0.2, 0.8)
+    glColor3f(0.7, 0.7, 0.7)  # Color gris más oscuro para los bordes
     for edge in edges:
         for vertex in edge:
             glVertex3fv(vertices[vertex])
     glEnd()
 
 def bresenham_3d_line(x0, y0, z0, x1, y1, z1):
-    """
-    Dibuja una línea 3D entre dos puntos usando el algoritmo de Bresenham.
-    """
     dx = abs(x1 - x0)
     dy = abs(y1 - y0)
     dz = abs(z1 - z0)
@@ -54,7 +45,7 @@ def bresenham_3d_line(x0, y0, z0, x1, y1, z1):
     ys = 1 if y1 > y0 else -1
     zs = 1 if z1 > z0 else -1
 
-    if dx >= dy and dx >= dz:  # El eje X es el dominante
+    if dx >= dy and dx >= dz:
         p1 = 2 * dy - dx
         p2 = 2 * dz - dx
         while x0 != x1:
@@ -68,7 +59,7 @@ def bresenham_3d_line(x0, y0, z0, x1, y1, z1):
                 p2 -= 2 * dx
             p1 += 2 * dy
             p2 += 2 * dz
-    elif dy >= dx and dy >= dz:  # El eje Y es el dominante
+    elif dy >= dx and dy >= dz:
         p1 = 2 * dx - dy
         p2 = 2 * dz - dy
         while y0 != y1:
@@ -82,7 +73,7 @@ def bresenham_3d_line(x0, y0, z0, x1, y1, z1):
                 p2 -= 2 * dy
             p1 += 2 * dx
             p2 += 2 * dz
-    else:  # El eje Z es el dominante
+    else:
         p1 = 2 * dy - dz
         p2 = 2 * dx - dz
         while z0 != z1:
@@ -97,71 +88,145 @@ def bresenham_3d_line(x0, y0, z0, x1, y1, z1):
             p1 += 2 * dy
             p2 += 2 * dx
 
-def draw_skull(x, y, z):
-    """
-    Dibuja una calavera en 3D en la posición especificada.
-    
-    Parámetros:
-        x, y, z: Coordenadas del centro de la calavera.
-    """
-    # Escala básica de la calavera
-    scale = 1.0
+def draw_skull():
+    # Puntos para el cráneo principal
+    skull_points = [
+        # Parte frontal del cráneo
+        (-3, 4, 2), (3, 4, 2),      # Superior
+        (-4, 1, 2), (4, 1, 2),      # Medio superior
+        (-4, -1, 2), (4, -1, 2),    # Medio inferior
+        (-3, -3, 2), (3, -3, 2),    # Inferior
+        
+        # Parte trasera del cráneo
+        (-3, 4, -2), (3, 4, -2),    # Superior
+        (-4, 1, -2), (4, 1, -2),    # Medio superior
+        (-4, -1, -2), (4, -1, -2),  # Medio inferior
+        (-3, -3, -2), (3, -3, -2),  # Inferior
+    ]
 
-    # Cráneo (superior)
-    bresenham_3d_line(x - scale, y + scale, z, x + scale, y + scale, z)   # Frente
-    bresenham_3d_line(x - scale, y, z, x - scale, y + scale, z)           # Lado izquierdo
-    bresenham_3d_line(x + scale, y, z, x + scale, y + scale, z)           # Lado derecho
-    bresenham_3d_line(x - scale, y, z, x + scale, y, z)                   # Parte inferior del cráneo
+    # Dibujar el contorno principal del cráneo
+    for i in range(0, 8, 2):
+        bresenham_3d_line(*skull_points[i], *skull_points[i+1])  # Horizontal frontal
+        bresenham_3d_line(*skull_points[i+8], *skull_points[i+9])  # Horizontal trasero
+        bresenham_3d_line(*skull_points[i], *skull_points[i+8])   # Conectar frente y atrás
 
-    # Ojos
-    eye_offset_x = 0.3 * scale
-    eye_offset_y = 0.5 * scale
-    eye_size = 0.2 * scale
+    # Dibujar suturas craneales
+    bresenham_3d_line(-3, 4, 2, 0, 4.2, 2)  # Sutura coronal frontal
+    bresenham_3d_line(0, 4.2, 2, 3, 4, 2)
+    bresenham_3d_line(-3, 4, -2, 0, 4.2, -2)  # Sutura coronal trasera
+    bresenham_3d_line(0, 4.2, -2, 3, 4, -2)
+    bresenham_3d_line(0, 4.2, 2, 0, 4.2, -2)  # Sutura sagital
+
+    # Dibujar los ojos (más detallados)
+    eye_size = 1.2
     # Ojo izquierdo
-    bresenham_3d_line(x - eye_offset_x - eye_size, y + eye_offset_y, z, x - eye_offset_x + eye_size, y + eye_offset_y, z)
-    bresenham_3d_line(x - eye_offset_x, y + eye_offset_y - eye_size, z, x - eye_offset_x, y + eye_offset_y + eye_size, z)
+    for i in range(12):
+        angle = i * np.pi / 6
+        x1 = -2 + eye_size * np.cos(angle)
+        y1 = 1 + eye_size * np.sin(angle)
+        x2 = -2 + eye_size * np.cos(angle + np.pi/6)
+        y2 = 1 + eye_size * np.sin(angle + np.pi/6)
+        bresenham_3d_line(int(x1*10), int(y1*10), 20, int(x2*10), int(y2*10), 20)
+    # Detalle interno del ojo izquierdo
+    for i in range(8):
+        angle = i * np.pi / 4
+        x1 = -2 + 0.5 * np.cos(angle)
+        y1 = 1 + 0.5 * np.sin(angle)
+        x2 = -2 + 0.5 * np.cos(angle + np.pi/4)
+        y2 = 1 + 0.5 * np.sin(angle + np.pi/4)
+        bresenham_3d_line(int(x1*10), int(y1*10), 20, int(x2*10), int(y2*10), 20)
+
     # Ojo derecho
-    bresenham_3d_line(x + eye_offset_x - eye_size, y + eye_offset_y, z, x + eye_offset_x + eye_size, y + eye_offset_y, z)
-    bresenham_3d_line(x + eye_offset_x, y + eye_offset_y - eye_size, z, x + eye_offset_x, y + eye_offset_y + eye_size, z)
+    for i in range(12):
+        angle = i * np.pi / 6
+        x1 = 2 + eye_size * np.cos(angle)
+        y1 = 1 + eye_size * np.sin(angle)
+        x2 = 2 + eye_size * np.cos(angle + np.pi/6)
+        y2 = 1 + eye_size * np.sin(angle + np.pi/6)
+        bresenham_3d_line(int(x1*10), int(y1*10), 20, int(x2*10), int(y2*10), 20)
+    # Detalle interno del ojo derecho
+    for i in range(8):
+        angle = i * np.pi / 4
+        x1 = 2 + 0.5 * np.cos(angle)
+        y1 = 1 + 0.5 * np.sin(angle)
+        x2 = 2 + 0.5 * np.cos(angle + np.pi/4)
+        y2 = 1 + 0.5 * np.sin(angle + np.pi/4)
+        bresenham_3d_line(int(x1*10), int(y1*10), 20, int(x2*10), int(y2*10), 20)
 
-    # Nariz
-    nose_width = 0.1 * scale
-    bresenham_3d_line(x - nose_width, y + 0.2 * scale, z, x, y, z)
-    bresenham_3d_line(x + nose_width, y + 0.2 * scale, z, x, y, z)
+    # Dibujar la cavidad nasal (más detallada)
+    bresenham_3d_line(0, 0, 20, -8, -8, 20)    # Borde izquierdo
+    bresenham_3d_line(0, 0, 20, 8, -8, 20)     # Borde derecho
+    bresenham_3d_line(-8, -8, 20, 8, -8, 20)   # Base
+    # Detalles internos de la nariz
+    bresenham_3d_line(-4, -4, 20, 4, -4, 20)   # Línea media
+    bresenham_3d_line(0, 0, 20, 0, -8, 20)     # Tabique nasal
 
-    # Mandíbula (inferior)
-    jaw_width = 0.8 * scale
-    jaw_height = 0.4 * scale
-    bresenham_3d_line(x - jaw_width / 2, y - jaw_height, z, x + jaw_width / 2, y - jaw_height, z)   # Línea inferior de la mandíbula
-    bresenham_3d_line(x - jaw_width / 2, y - jaw_height, z, x - jaw_width / 2, y, z)               # Lado izquierdo de la mandíbula
-    bresenham_3d_line(x + jaw_width / 2, y - jaw_height, z, x + jaw_width / 2, y, z)               # Lado derecho de la mandíbula
+    # Dibujar la mandíbula
+    bresenham_3d_line(-30, -20, 20, 30, -20, 20)  # Línea superior
+    bresenham_3d_line(-25, -35, 20, 25, -35, 20)  # Línea inferior
+    bresenham_3d_line(-30, -20, 20, -25, -35, 20)  # Lado izquierdo
+    bresenham_3d_line(30, -20, 20, 25, -35, 20)   # Lado derecho
 
-# Ejemplo de uso en el entorno OpenGL y Pygame
+    # Dibujar los dientes (más detallados)
+    # Dientes superiores
+    for i in range(-3, 4):
+        bresenham_3d_line(i*7, -20, 20, i*7, -25, 20)  # Dientes verticales
+        if i < 3:  # Separaciones entre dientes
+            bresenham_3d_line(i*7+3.5, -20, 20, i*7+3.5, -23, 20)
+    
+    # Dientes inferiores
+    for i in range(-3, 4):
+        bresenham_3d_line(i*7, -30, 20, i*7, -35, 20)  # Dientes verticales
+        if i < 3:  # Separaciones entre dientes
+            bresenham_3d_line(i*7+3.5, -32, 20, i*7+3.5, -35, 20)
+
+    # Dibujar el arco cigomático (pómulos)
+    bresenham_3d_line(-30, -5, 20, -40, 5, 15)   # Izquierdo frontal
+    bresenham_3d_line(-40, 5, 15, -30, 15, 10)   # Izquierdo superior
+    bresenham_3d_line(30, -5, 20, 40, 5, 15)     # Derecho frontal
+    bresenham_3d_line(40, 5, 15, 30, 15, 10)     # Derecho superior
+
 def main():
     pygame.init()
-    display = (800, 600)
+    display = (1024, 768)  # Ventana más grande para mejor visualización
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
     
     gluPerspective(45, (display[0] / display[1]), 0.1, 50.0)
-    glTranslatef(0.0, 0.0, -5)
-    glEnable(GL_DEPTH_TEST)  # Habilita el Depth Test
+    glTranslatef(0.0, 0.0, -15)  # Ajustado para mejor vista
+
+    rotation_x = 0
+    rotation_y = 0
+    last_mouse_pos = None
+    mouse_button_pressed = False
 
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 return
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    mouse_button_pressed = True
+                    last_mouse_pos = pygame.mouse.get_pos()
+            elif event.type == pygame.MOUSEBUTTONUP:
+                if event.button == 1:
+                    mouse_button_pressed = False
+            elif event.type == pygame.MOUSEMOTION:
+                if mouse_button_pressed:
+                    current_mouse_pos = pygame.mouse.get_pos()
+                    if last_mouse_pos:
+                        dx = current_mouse_pos[0] - last_mouse_pos[0]
+                        dy = current_mouse_pos[1] - last_mouse_pos[1]
+                        rotation_x += dy * 0.5
+                        rotation_y += dx * 0.5
+                        glRotatef(dy * 0.5, 1, 0, 0)
+                        glRotatef(dx * 0.5, 0, 1, 0)
+                    last_mouse_pos = current_mouse_pos
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        
-        # Dibuja la calavera en una posición central
-        draw_skull(0, 0, 0)
-        
+        draw_skull()
         pygame.display.flip()
         pygame.time.wait(10)
-
-
-
 
 if __name__ == "__main__":
     main()
