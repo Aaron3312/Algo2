@@ -4,5 +4,5 @@
 		"vector": "cpp"
 	},
 	"C_Cpp.default.compilerPath": "C:\\msys64\\ucrt64\\bin\\g++.exe",
-	"python.analysis.typeCheckingMode": "basic"
+	"python.analysis.typeCheckingMode": "off"
 }
