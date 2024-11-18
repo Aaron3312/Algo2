@@ -1,0 +1,60 @@
+{
+  "completedPomodoros": 3,
+  "totalWorkTime": 1,
+  "totalBreakTime": 0,
+  "lastWeekPomodoros": [
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "dailyProgress": [
+    {
+      "day": "Dom",
+      "pomodoros": 0,
+      "workTime": 0,
+      "pauseTime": 0
+    },
+    {
+      "day": "Lun",
+      "pomodoros": 1,
+      "workTime": 1,
+      "pauseTime": 0
+    },
+    {
+      "day": "Mar",
+      "pomodoros": 0,
+      "workTime": 0,
+      "pauseTime": 0
+    },
+    {
+      "day": "Mié",
+      "pomodoros": 0,
+      "workTime": 0,
+      "pauseTime": 0
+    },
+    {
+      "day": "Jue",
+      "pomodoros": 0,
+      "workTime": 0,
+      "pauseTime": 0
+    },
+    {
+      "day": "Vie",
+      "pomodoros": 0,
+      "workTime": 0,
+      "pauseTime": 0
+    },
+    {
+      "day": "Sáb",
+      "pomodoros": 0,
+      "workTime": 0,
+      "pauseTime": 0
+    }
+  ],
+  "totalPauses": 2,
+  "pauseTime": 0
+}
