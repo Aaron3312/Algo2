@@ -1,9 +1,23 @@
+// Types
+interface DailyProgress {
+  day: string;
+  completed: number;
+  interrupted: number;
+}
+
+interface PomodoroStats {
+  totalPomodoros: number;
+  totalTime: number;
+  dailyStreak: number;
+  dailyProgress: DailyProgress[];
+  longestStreak: number;
+}
+
 import { useState, useEffect } from 'react';
 import { getDayName } from '../utils';
 
-
 export const useStats = (initialStats: PomodoroStats) => {
-  const [stats, setStats] = useState(initialStats);
+  const [stats, setStats] = useState<PomodoroStats>(initialStats);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchStats = async () => {
@@ -15,10 +29,11 @@ export const useStats = (initialStats: PomodoroStats) => {
       }
       const data = await response.json();
       
-      const updatedData = {
+      const updatedData: PomodoroStats = {
         ...data,
-        dailyProgress: data.dailyProgress.map((progress: any, index: number) => ({
-          ...progress,
+        dailyProgress: data.dailyProgress.map((progress: DailyProgress, index: number) => ({
+          completed: progress.completed || 0,
+          interrupted: progress.interrupted || 0,
           day: getDayName(index)
         }))
       };

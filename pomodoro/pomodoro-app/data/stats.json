@@ -1,11 +1,11 @@
 {
-  "completedPomodoros": 1,
-  "totalWorkTime": 25,
-  "totalBreakTime": 5,
+  "completedPomodoros": 3,
+  "totalWorkTime": 75,
+  "totalBreakTime": 10,
   "lastWeekPomodoros": [
     0,
     3,
-    1,
+    3,
     0,
     0,
     0,
@@ -16,46 +16,63 @@
       "day": "Dom",
       "pomodoros": 0,
       "workTime": 0,
-      "pauseTime": 0
+      "pauseTime": 0,
+      "completed": 0,
+      "interrupted": 0
     },
     {
       "day": "Lun",
       "pomodoros": 0,
       "workTime": 0,
-      "pauseTime": 0
+      "pauseTime": 0,
+      "completed": 0,
+      "interrupted": 0
     },
     {
       "day": "Mar",
-      "pomodoros": 1,
-      "workTime": 25,
-      "pauseTime": 0.005683333333333334
+      "pomodoros": null,
+      "workTime": null,
+      "pauseTime": null,
+      "completed": 1,
+      "interrupted": 0
     },
     {
       "day": "Mié",
       "pomodoros": 0,
       "workTime": 0,
-      "pauseTime": 0
+      "pauseTime": 0,
+      "completed": 0,
+      "interrupted": 0
     },
     {
       "day": "Jue",
       "pomodoros": 0,
       "workTime": 0,
-      "pauseTime": 0
+      "pauseTime": 0,
+      "completed": 0,
+      "interrupted": 0
     },
     {
       "day": "Vie",
       "pomodoros": 0,
       "workTime": 0,
-      "pauseTime": 0
+      "pauseTime": 0,
+      "completed": 0,
+      "interrupted": 0
     },
     {
       "day": "Sáb",
       "pomodoros": 0,
       "workTime": 0,
-      "pauseTime": 0
+      "pauseTime": 0,
+      "completed": 0,
+      "interrupted": 0
     }
   ],
-  "totalPauses": 1,
-  "pauseTime": 1.01,
-  "lastSaved": 1731998703750
+  "totalPauses": 7,
+  "pauseTime": 31.33,
+  "lastSaved": 1732051509482,
+  "totalPomodoros": 0,
+  "totalTime": 0,
+  "longestStreak": null
 }

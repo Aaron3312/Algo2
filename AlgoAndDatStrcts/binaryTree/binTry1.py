@@ -10,6 +10,40 @@ class BSTNode:
             return data1
     
 
+def minValueNode(bstNode):
+    current = bstNode
+    while current.leftChild is not None:
+        current = current.leftChild
+    return current
+    
+def maxValueNode(bstNode):
+    current = bstNode
+    while current.rightChild is not None:
+        current = current.rightChild
+    return current
+
+def deletedNode(rootNode, nodeValue):
+    if rootNode is None:
+        return rootNode
+    if nodeValue < rootNode.data:
+        rootNode.leftChild = deletedNode(rootNode.leftChild, nodeValue)
+    elif nodeValue > rootNode.data:
+        rootNode.rightChild = deletedNode(rootNode.rightChild, nodeValue)
+    else:
+        if rootNode.leftChild is None:
+            temp = rootNode.rightChild
+            rootNode = None
+            return temp
+        if rootNode.rightChild is None:
+            temp = rootNode.leftChild
+            rootNode = None
+            return temp
+
+        temp = minValueNode(rootNode.rightChild)
+        rootNode.data = temp.data
+        rootNode.rightChild = deletedNode(rootNode.rightChild, temp.data)
+    return rootNode    
+
 
 
 def insertNode(rootNode, nodeValue):
@@ -30,12 +64,51 @@ def insertNode(rootNode, nodeValue):
 def preOrderTraversal(rootNode):
     if not rootNode:
         return
+    print(rootNode.data)
     preOrderTraversal(rootNode.leftChild)
     preOrderTraversal(rootNode.rightChild)
-    print(rootNode.data)
 
-        
-        
+def levelOrderTrav(rootNode):
+    if not rootNode:
+        return
+    else:
+        queue = []
+        queue.append(rootNode)
+        while queue != []:
+            root = queue.pop(0)
+            print(root.data)
+            if root.leftChild is not None:
+                queue.append(root.leftChild)
+            if root.rightChild is not None:
+                queue.append(root.rightChild)
+
+def Find(rootNode, data):
+    if rootNode.data == data:
+        print("valueFund")
+        return
+    elif rootNode.data > data:
+        if rootNode.leftChild:
+            Find(rootNode.leftChild, data)
+        else:
+            print ("notFound")
+    elif rootNode.data <= data:
+        if rootNode.rightChild:
+            Find(rootNode.rightChild, data)
+        else:
+            print ("notFound")
+
+    else:
+        print ("notFound")
+        return
+
+def deleteTree(rootNode):
+    rootNode.data = None
+    rootNode.leftChild = None
+    rootNode.rightChild = None
+
+    return "deleted"
+
+
 newBST = BSTNode(12)
 print(insertNode(newBST, 11 ))
 print(insertNode(newBST, 10 ))
@@ -47,6 +120,12 @@ print(insertNode(newBST, 33 ))
 print(insertNode(newBST, 12 ))
 print(insertNode(newBST, 23 ))
 
+Find(newBST, 32)
+
+(deletedNode(newBST,12))
 
 
-preOrderTraversal(newBST)
+deleteTree(newBST)
+
+
+levelOrderTrav(newBST)

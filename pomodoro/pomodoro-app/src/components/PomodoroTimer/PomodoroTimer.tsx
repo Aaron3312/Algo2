@@ -10,18 +10,53 @@ const WORK_TIME = 25;
 const BREAK_TIME = 5;
 const AUTOSAVE_INTERVAL = 1000 * 60; // Autoguardado cada 10 seg
 
-const initialStats = {
+// Types
+// Types
+export interface DailyProgress {
+  day: string;
+  pomodoros: number;
+  workTime: number;
+  pauseTime: number;
+  completed: number;
+  interrupted: number;
+}
+
+export interface PomodoroStats {
+  completedPomodoros: number;
+  totalPomodoros: number;
+  totalWorkTime: number;
+  totalBreakTime: number;
+  totalTime: number;
+  pauseCount: number;      // Changed from totalPauses
+  pauseTime: number;
+  dailyStreak: number;
+  longestStreak: number;
+  lastWeekPomodoros: number[];
+  dailyProgress: DailyProgress[];
+  lastSaved: number;
+  totalPauses: number;     // Remove
+}
+
+// Initial state
+export const initialStats: PomodoroStats = {
   completedPomodoros: 0,
+  totalPomodoros: 0,
   totalWorkTime: 0,
   totalBreakTime: 0,
-  totalPauses: 0,
+  totalTime: 0,
+  pauseCount: 0,          // Changed from totalPauses
   pauseTime: 0,
+  dailyStreak: 0,
+  longestStreak: 0,
   lastWeekPomodoros: Array(7).fill(0),
+  totalPauses: 0,         // Removed
   dailyProgress: Array(7).fill(null).map((_, index) => ({
     day: getDayName(index),
     pomodoros: 0,
     workTime: 0,
-    pauseTime: 0
+    pauseTime: 0,
+    completed: 0,
+    interrupted: 0
   })),
   lastSaved: Date.now()
 };
@@ -44,23 +79,25 @@ const PomodoroTimer = () => {
     return Math.floor((Date.now() - sessionStartTime) / 60000);
   };
 
-  const updateStats = (timeElapsed: number, isWorkMode: boolean, pauseDuration: number = 0) => {
+  const updateStats = (
+    timeElapsed: number, 
+    isWorkMode: boolean, 
+    pauseDuration: number = 0,
+    wasInterrupted: boolean = false
+  ) => {
     const today = new Date().getDay();
-    const currentSessionTime = calculateCurrentSessionTime();
-    console.log('currentSessionTime', currentSessionTime);
-
+    calculateCurrentSessionTime();
+    
     // Calculate new pause-related stats
-    const newTotalPauses = stats.totalPauses + (pauseDuration > 0 ? 1 : 0);
-    //pause duration to 2 decimal places
+    const newTotalPauses = stats.totalPauses + (pauseDuration > 0 ? 1 : 0);  // Using totalPauses
     const newPauseTime = stats.pauseTime + Math.round(pauseDuration * 100) / 100;
-
-
+    
     const newStats = {
       ...stats,
       completedPomodoros: isWorkMode ? stats.completedPomodoros + 1 : stats.completedPomodoros,
       totalWorkTime: isWorkMode ? stats.totalWorkTime + timeElapsed : stats.totalWorkTime,
       totalBreakTime: !isWorkMode ? stats.totalBreakTime + timeElapsed : stats.totalBreakTime,
-      totalPauses: newTotalPauses,
+      totalPauses: newTotalPauses,  // Using totalPauses
       pauseTime: newPauseTime,
       lastWeekPomodoros: stats.lastWeekPomodoros.map((count, index) => 
         index === today && isWorkMode ? count + 1 : count
@@ -71,7 +108,9 @@ const PomodoroTimer = () => {
               ...progress,
               pomodoros: isWorkMode ? progress.pomodoros + 1 : progress.pomodoros,
               workTime: isWorkMode ? progress.workTime + timeElapsed : progress.workTime,
-              pauseTime: progress.pauseTime + pauseDuration
+              pauseTime: progress.pauseTime + pauseDuration,
+              completed: isWorkMode && !wasInterrupted ? progress.completed + 1 : progress.completed,
+              interrupted: isWorkMode && wasInterrupted ? progress.interrupted + 1 : progress.interrupted
             }
           : progress
       ),
@@ -81,8 +120,8 @@ const PomodoroTimer = () => {
     setStats(newStats);
     saveStats(newStats);
   };
-
-  // Autoguardado periódico
+  
+  // Update autosave effect
   useEffect(() => {
     let autoSaveInterval: ReturnType<typeof setInterval>;
   
@@ -97,15 +136,15 @@ const PomodoroTimer = () => {
             totalBreakTime: mode === 'break' ? stats.totalBreakTime + timeElapsed : stats.totalBreakTime,
             lastSaved: currentTime,
           };
-          setStats(newStats); // Actualiza el estado local
-          saveStats(newStats); // Persistencia (asume que es una función asincrónica o síncrona)
-          setSessionStartTime(currentTime); // Reinicia el tiempo
+          setStats(newStats);
+          saveStats(newStats);
+          setSessionStartTime(currentTime);
         }
       }, AUTOSAVE_INTERVAL);
     }
   
     return () => {
-      clearInterval(autoSaveInterval); // Limpia el intervalo al desmontar o cuando cambien las dependencias
+      clearInterval(autoSaveInterval);
     };
   }, [stats, timerRunning, mode, sessionStartTime, saveStats]);
 
