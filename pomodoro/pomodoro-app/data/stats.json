@@ -1,11 +1,11 @@
 {
-  "completedPomodoros": 3,
-  "totalWorkTime": 1,
-  "totalBreakTime": 0,
+  "completedPomodoros": 1,
+  "totalWorkTime": 25,
+  "totalBreakTime": 5,
   "lastWeekPomodoros": [
     0,
+    3,
     1,
-    0,
     0,
     0,
     0,
@@ -20,15 +20,15 @@
     },
     {
       "day": "Lun",
-      "pomodoros": 1,
-      "workTime": 1,
+      "pomodoros": 0,
+      "workTime": 0,
       "pauseTime": 0
     },
     {
       "day": "Mar",
-      "pomodoros": 0,
-      "workTime": 0,
-      "pauseTime": 0
+      "pomodoros": 1,
+      "workTime": 25,
+      "pauseTime": 0.005683333333333334
     },
     {
       "day": "Mié",
@@ -55,6 +55,7 @@
       "pauseTime": 0
     }
   ],
-  "totalPauses": 2,
-  "pauseTime": 0
+  "totalPauses": 1,
+  "pauseTime": 1.01,
+  "lastSaved": 1731998703750
 }

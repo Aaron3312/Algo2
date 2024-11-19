@@ -6,15 +6,27 @@ export const useTimer = (initialTime: number, onComplete: () => void) => {
   const [sessionStartTime, setSessionStartTime] = useState<number | null>(null);
   const [lastPauseTime, setLastPauseTime] = useState<number | null>(null);
 
+  // Update timeLeft when initialTime changes
+  useEffect(() => {
+    setTimeLeft(initialTime);
+  }, [initialTime]);
+
   useEffect(() => {
     let interval: NodeJS.Timeout;
+    
     if (isRunning && timeLeft > 0) {
       interval = setInterval(() => {
-        setTimeLeft(time => time - 1);
+        setTimeLeft(time => {
+          if (time <= 1) {
+            setIsRunning(false);
+            onComplete();
+            return 0;
+          }
+          return time - 1;
+        });
       }, 1000);
-    } else if (timeLeft === 0) {
-      onComplete();
     }
+    
     return () => clearInterval(interval);
   }, [isRunning, timeLeft, onComplete]);
 
