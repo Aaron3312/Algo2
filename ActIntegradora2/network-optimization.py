@@ -91,13 +91,12 @@ class NetworkOptimizer:
 
         return max_flow
 
-    def find_voronoi_regions(self) -> List[List[Tuple[int, int]]]:
-        """Implementación simplificada de regiones de Voronoi"""
-        # Esta es una implementación básica que divide el plano en regiones
-        # basadas en la distancia euclidiana a cada central
-        regions = [[] for _ in range(len(self.centrals))]
+    def find_voronoi_regions(self) -> List[List[float]]:
+        """Implementación simplificada de regiones de Voronoi que retorna distancias"""
+        # Inicializar lista de distancias para cada central
+        distances_to_centrals = [[] for _ in range(len(self.centrals))]
         
-        # Por simplicidad, creamos un grid de puntos y los asignamos a la central más cercana
+        # Por simplicidad, creamos un grid de puntos y calculamos distancias a cada central
         for x in range(0, 1000, 50):  # Grid de 1000x1000
             for y in range(0, 1000, 50):
                 min_dist = float('inf')
@@ -109,9 +108,10 @@ class NetworkOptimizer:
                         min_dist = dist
                         closest_central = i
                 
-                regions[closest_central].append((x, y))
+                # Agregar la distancia a la lista de la central más cercana
+                distances_to_centrals[closest_central].append(min_dist)
         
-        return regions
+        return distances_to_centrals
 
 def main():
     # Leer desde archivo en lugar de entrada estándar
