@@ -1,12 +1,9 @@
 # Act 4.1
 def orientacion(p, q, r):
-    """
-    Determina la orientación del triplete ordenado (p, q, r).
-    Retorna:
-    0 --> p, q y r son colineales
-    1 --> Sentido horario
-    -1 --> Sentido antihorario
-    """
+    # Determina la orientación de los puntos p, q y r usando producto cruz
+    # 0 --> p, q y r son colineales
+    # 1 --> Sentido horario
+    # -1 --> Sentido antihorario
     val = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
     if val == 0:
         return 0
@@ -15,9 +12,7 @@ def orientacion(p, q, r):
     return -1
 
 def intersectan(p1, q1, p2, q2):
-    """
-    Determina si el segmento p1q1 intersecta con el segmento p2q2
-    """
+    # Determina si el segmento p1q1 intersecta con el segmento p2q2
     o1 = orientacion(p1, q1, p2)
     o2 = orientacion(p1, q1, q2)
     o3 = orientacion(p2, q2, p1)
@@ -40,9 +35,7 @@ def intersectan(p1, q1, p2, q2):
     return False
 
 def sobre_segmento(p, q, r):
-    """
-    Verifica si el punto q está en el segmento pr
-    """
+    # Verifica si el punto q está en el segmento pr
     return (q[0] <= max(p[0], r[0]) and q[0] >= min(p[0], r[0]) and
             q[1] <= max(p[1], r[1]) and q[1] >= min(p[1], r[1]))
 
@@ -62,7 +55,6 @@ def sobre_segmento(p, q, r):
 with open('input.txt', 'r') as file:
     lines = file.readlines()
 
-# Procesar cada línea
 results = []
 for line in lines:
     points = list(map(float, line.split(',')))
@@ -72,5 +64,4 @@ for line in lines:
     q2 = (points[6], points[7])
     results.append(intersectan(p1, q1, p2, q2))
 
-# Imprimir resultados
 print(results)
