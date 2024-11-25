@@ -1,11 +1,11 @@
 {
-  "completedPomodoros": 3,
-  "totalWorkTime": 75,
-  "totalBreakTime": 10,
+  "completedPomodoros": 7,
+  "totalWorkTime": 175,
+  "totalBreakTime": 25,
   "lastWeekPomodoros": [
     0,
     3,
-    3,
+    7,
     0,
     0,
     0,
@@ -33,7 +33,7 @@
       "pomodoros": null,
       "workTime": null,
       "pauseTime": null,
-      "completed": 1,
+      "completed": 5,
       "interrupted": 0
     },
     {
@@ -71,7 +71,7 @@
   ],
   "totalPauses": 7,
   "pauseTime": 31.33,
-  "lastSaved": 1732051509482,
+  "lastSaved": 1732081972165,
   "totalPomodoros": 0,
   "totalTime": 0,
   "longestStreak": null
