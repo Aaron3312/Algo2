@@ -57,13 +57,13 @@ class LinkedList:
             temp_node.next = new_node
             self.length += 1 
         return True
+    
     def traverse(self):
         current = self.head
         while current:
             print(current.value)
             current = current.next
 
-    
     def search(self, target):
         current = self.head
         while current is not None:
@@ -122,39 +122,38 @@ class LinkedList:
         self.tail = None
         self.length = None
 
+def thingOfWork(LinkedList1, LinkedList2):
+    #print(LinkedList1.length)
+    listBasure = []
+    for i in range(LinkedList1.length -1, -1, -1):
+        #print(i)
+        #print(List1.get(i).value)
+        listBasure.append(List1.get(i).value)
+    #print(listBasure)
+    for i in range(LinkedList2.length):
+        listBasure[i] = listBasure[i] + List2.get(i).value
+    #print(listBasure)
+    listaSalida = LinkedList()
+    for i in range(LinkedList1.length):
+        listaSalida.prepend(listBasure[i])
+    return listaSalida
+
+List1 = LinkedList()
+List2 = LinkedList()
+
+List1.append(0)
+List1.append(2)
+List1.append(3)
+List1.append(3)
 
 
-new_linked_List = LinkedList()
-new_linked_List.insert(430, 0)
-
-new_linked_List.append(10)
-new_linked_List.append(20)
-new_linked_List.append(30)
-new_linked_List.append(40)
-new_linked_List.append(50)
-new_linked_List.prepend(60)
-new_linked_List.append(70)
-new_linked_List.append(80)
+List2.append(4)
+List2.append(5)
+List2.append(6)
+List2.append(6)
 
 
-print(new_linked_List.length)
-print(new_linked_List)
-
-
-new_linked_List.traverse()
-print(new_linked_List.search(430))
-print(new_linked_List.get(1))
-print(new_linked_List.set(3, 30))
-print(new_linked_List)
-print(new_linked_List.pop_first())
-print(new_linked_List.pop_first())
-
-print(new_linked_List)
-print(new_linked_List.pop())
-
-print(new_linked_List)
-print((new_linked_List.remove(3)))
-print(new_linked_List)
-new_linked_List.delete_all()
-print(new_linked_List)
+print(List1)
+print(List2)
+print(thingOfWork(List1,List2))
 
