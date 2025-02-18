@@ -22,6 +22,15 @@ class Tester(Employee):
     def do_work(self):
         print('Testing')
 
-
-
+class Designer(Employee):
+    def do_work(self):
+        print('Designing')
+    
+class GameDevCompany(Company):
+    def get_employee(self):
+        return [Developer(), Tester(), Designer()]
+    
+class OutsourcingCompany(Company):
+    def get_employee(self):
+        return [Developer(), Tester()]
 
