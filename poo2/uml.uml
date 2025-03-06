@@ -1,0 +1,53 @@
+classDiagram
+    class Profesor {
+        <<abstract>>
+        +String nombre
+        +int edad
+        +int años_experiencia
+        +String materia
+        +List grupos_asignados
+        +Dict calificaciones
+        +planear_clase()* str
+        +evaluar()* str
+        +asignar_grupo(grupo: str) void
+        +registrar_calificacion(alumno: str, calificacion: float) void
+        +mostrar_informacion() str
+    }
+
+    class ProfesorMatematicas {
+        +List temas
+        +bool calculadora_permitida
+        +planear_clase() str
+        +evaluar() str
+        +revisar_ejercicios(ejercicios_resueltos: int) str
+    }
+
+    class ProfesorLiteratura {
+        +List libros_curso
+        +int ensayos_pendientes
+        +planear_clase() str
+        +evaluar() str
+        +asignar_lectura(libro: str) void
+    }
+
+    class ProfesorCiencias {
+        +List experimentos_realizados
+        +bool equipo_laboratorio
+        +planear_clase() str
+        +evaluar() str
+        +realizar_experimento(nombre_experimento: str) void
+    }
+
+    class Escuela {
+        +String nombre
+        +List profesores
+        +Dict horarios
+        +contratar_profesor(profesor: Profesor) void
+        +asignar_horarios(profesor: Profesor, horario: List) void
+        +mostrar_planeaciones() void
+    }
+
+    Profesor <|-- ProfesorMatematicas
+    Profesor <|-- ProfesorLiteratura
+    Profesor <|-- ProfesorCiencias
+    Escuela *-- Profesor : contains

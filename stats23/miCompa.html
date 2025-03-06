@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Software Construction - SWEBOK</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .slide-container {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .slide {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background-color: white;
+            color: #003366; /* Azul marino */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .slide-header {
+            text-align: center;
+            padding: 20px;
+            background-color: #003366; /* Azul marino */
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .slide-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .definition {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-style: italic;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 15px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 18px;
+        }
+        li:before {
+            content: "•";
+            color: #1E90FF; /* Azul */
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+        .columns {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .column {
+            flex: 1;
+            margin: 0 15px;
+            background-color: rgba(30, 144, 255, 0.1); /* Azul claro */
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #1E90FF; /* Azul */
+        }
+        .column h3 {
+            color: #1E90FF; /* Azul */
+            margin-top: 0;
+        }
+        .navigation {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .nav-button {
+            background-color: #1E90FF; /* Azul */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .slide-number {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 14px;
+            color: #1E90FF; /* Azul */
+        }
+    </style>
+</head>
+<body>
+    <!-- Slide 1: Introduction -->
+    <div class="slide-container">
+        <div class="slide" id="slide1">
+            <div class="slide-header">
+                CONSTRUCCIÓN DE SOFTWARE (SWEBOK)
+            </div>
+            <div class="slide-content">
+                <div class="definition">
+                    "La construcción de software se refiere a la creación y mantenimiento detallado del software a través de codificación, verificación, pruebas unitarias, pruebas de integración y depuración."
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <h3>Conceptos Fundamentales</h3>
+                        <ul>
+                            <li>Minimización de la complejidad</li>
+                            <li>Anticipación y adaptación al cambio</li>
+                            <li>Construcción para verificación</li>
+                            <li>Reutilización de recursos</li>
+                            <li>Aplicación de estándares</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Relaciones con otras Áreas</h3>
+                        <ul>
+                            <li>Diseño de Software</li>
+                            <li>Pruebas de Software</li>
+                            <li>Gestión de Configuración</li>
+                            <li>Calidad del Software</li>
+                            <li>Gestión de Proyectos</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">1/4</div>
+        </div>
+    </div>
+
+    <!-- Slide 2: Managing Construction -->
+    <div class="slide-container">
+        <div class="slide" id="slide2">
+            <div class="slide-header">
+                GESTIÓN DE LA CONSTRUCCIÓN
+            </div>
+            <div class="slide-content">
+                <div class="columns">
+                    <div class="column">
+                        <h3>Construcción en Modelos de Ciclo de Vida</h3>
+                        <ul>
+                            <li><strong>Modelos lineales:</strong> la construcción ocurre después de requisitos y diseño</li>
+                            <li><strong>Modelos iterativos:</strong> construcción concurrente con otras actividades</li>
+                            <li><strong>Entrega continua:</strong> mezcla codificación, pruebas, entrega y despliegue</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Planificación de la Construcción</h3>
+                        <ul>
+                            <li>Elección del método de construcción</li>
+                            <li>Definición del orden de creación e integración</li>
+                            <li>Estrategia de integración (gradual o incremental)</li>
+                            <li>Procesos de gestión de calidad</li>
+                            <li>Asignación de tareas</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <h3>Medición de la Construcción</h3>
+                        <ul>
+                            <li>Código desarrollado, modificado, reutilizado</li>
+                            <li>Complejidad del código</li>
+                            <li>Estadísticas de inspección</li>
+                            <li>Tasas de corrección y detección de fallos</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Gestión de Dependencias</h3>
+                        <ul>
+                            <li>Dependencias internas y externas</li>
+                            <li>Uso de gestores de paquetes</li>
+                            <li>Análisis de riesgos en la cadena de suministro</li>
+                            <li>Manejo de conflictos de licencias</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">2/4</div>
+        </div>
+    </div>
+
+    <!-- Slide 3: Practical Considerations -->
+    <div class="slide-container">
+        <div class="slide" id="slide3">
+            <div class="slide-header">
+                CONSIDERACIONES PRÁCTICAS
+            </div>
+            <div class="slide-content">
+                <div class="columns">
+                    <div class="column">
+                        <h3>Diseño en la Construcción</h3>
+                        <ul>
+                            <li>Diseño detallado durante la construcción</li>
+                            <li>Adaptación a las restricciones del mundo real</li>
+                            <li>Refinamiento de algoritmos y estructuras de datos</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Lenguajes de Construcción</h3>
+                        <ul>
+                            <li>Lenguajes de configuración</li>
+                            <li>Lenguajes de toolkit</li>
+                            <li>Lenguajes de scripting</li>
+                            <li>Lenguajes de programación (lingüísticos, formales, visuales)</li>
+                            <li>Lenguajes específicos de dominio (DSL)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <h3>Codificación</h3>
+                        <ul>
+                            <li>Convenciones de nomenclatura y diseño</li>
+                            <li>Estructuras de control</li>
+                            <li>Manejo de errores y excepciones</li>
+                            <li>Prevención de vulnerabilidades</li>
+                            <li>Documentación del código</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Calidad y Pruebas</h3>
+                        <ul>
+                            <li>Pruebas unitarias y de integración</li>
+                            <li>Desarrollo dirigido por pruebas (TDD)</li>
+                            <li>Programación defensiva</li>
+                            <li>Inspecciones y revisiones técnicas</li>
+                            <li>Análisis estático</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="slide-number">3/4</div>
+        </div>
+    </div>
+
+    <!-- Slide 4: Construction Technologies & Tools -->
+    <div class="slide-container">
+        <div class="slide" id="slide4">
+            <div class="slide-header">
+                TECNOLOGÍAS Y HERRAMIENTAS DE CONSTRUCCIÓN
+            </div>
+            <div class="slide-content">
+                <div class="columns">
+                    <div class="column">
+                        <h3>Tecnologías Clave</h3>
+                        <ul>
+                            <li>Diseño y uso de APIs</li>
+                            <li>Programación orientada a objetos</li>
+                            <li>Plantillas y genéricos</li>
+                            <li>Aserciones y contratos</li>
+                            <li>Manejo de errores y excepciones</li>
+                            <li>Modelos ejecutables</li>
+                            <li>Técnicas basadas en estados y tablas</li>
+                            <li>Concurrencia y middleware</li>
+                            <li>Software distribuido y en la nube</li>
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h3>Herramientas</h3>
+                        <ul>
+                            <li>Entornos de desarrollo (IDEs)</li>
+                            <li>Programación visual y plataformas low-code/no-code</li>
+                            <li>Herramientas de pruebas unitarias</li>
+                            <li>Herramientas de perfilado y análisis de rendimiento</li>
+                            <li>Herramientas de análisis estático</li>
+                            <li>Entornos de desarrollo basados en la nube</li>
+                            <li>Programación asistida por IA y modelos de lenguaje</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="definition" style="margin-top: 20px;">
+                    "La construcción de software es quizás la actividad más artesanal de la ingeniería de software, donde las restricciones del mundo real impactan directamente en el trabajo del desarrollador."
+                </div>
+            </div>
+            <div class="slide-number">4/4</div>
+        </div>
+    </div>
+
+    <script>
+        // Simple navigation script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide all slides except the first one
+            const slides = document.querySelectorAll('.slide-container');
+            for(let i = 1; i < slides.length; i++) {
+                slides[i].style.display = 'none';
+            }
+            
+            // Add keyboard navigation
+            let currentSlide = 0;
+            document.addEventListener('keydown', function(e) {
+                if(e.key === 'ArrowRight' || e.key === 'PageDown') {
+                    if(currentSlide < slides.length - 1) {
+                        slides[currentSlide].style.display = 'none';
+                        currentSlide++;
+                        slides[currentSlide].style.display = 'block';
+                    }
+                }
+                else if(e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    if(currentSlide > 0) {
+                        slides[currentSlide].style.display = 'none';
+                        currentSlide--;
+                        slides[currentSlide].style.display = 'block';
+                    }
+                }
+            });
+            
+            // Add click navigation
+            document.addEventListener('click', function() {
+                if(currentSlide < slides.length - 1) {
+                    slides[currentSlide].style.display = 'none';
+                    currentSlide++;
+                    slides[currentSlide].style.display = 'block';
+                } else {
+                    // Loop back to first slide
+                    slides[currentSlide].style.display = 'none';
+                    currentSlide = 0;
+                    slides[currentSlide].style.display = 'block';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
